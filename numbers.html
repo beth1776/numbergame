@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <title>Guess My Number</title>
+    <head>
+        <style>
+
+            #main{
+                border: 5px solid black;
+                width: 1000px;
+                height: 500px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform:translate(-50%,-50%);
+            }
+            
+            h1{
+                text-align: center;
+            }
+
+            #result{
+                font-size: 20pt;
+                text-align: center;
+                margin: 5px;
+                position: absolute;
+                top: 30%;
+                left: 50%;
+                left: 50%;
+                transform: translate(-50%, 0%);
+                padding: 5px;
+                font-weight: bold;
+            }
+
+            #usernumber{
+                border: 3px solid black;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, 0%);
+                padding: 5px;
+            }
+
+            #button{
+                /* display: inline-block; */
+                box-sizing: border-box;
+                border: 3px solid black;
+                position: absolute;
+                left: 50%;
+                top: 60%;
+                transform: translate(-50%, 0%);
+                padding: 5px;
+            }            
+        </style>
+    </head>
+<body>
+    <div id="main">
+         <h1>Guess My Number</h1>
+         <p id="result">Your Guess Here</p>
+
+         <div id="button">Enter</div>
+         <input type="text" id="usernumber">
+    </div>
+
+
+<!-- ---------------------------------------------------------------------------------- -->
+
+    <script type="text/javascript">
+       
+    //    gets address of an ID and stores it within a variable
+       let result = document.getElementById("result");
+
+        result.innerHTML = "Try Me";
+
+        let button = document.getElementById("button");
+        let usernumber = document.getElementById("usernumber");
+
+    // same thing but clicky takes address and tells clicky
+
+        button.onclick = function(){
+            if (usernumber.value == "") {result.innerHTML = "You need to type something...";}
+            else { userguess(usernumber.value);}
+        }
+
+    // onkeydown for reset/enter
+        usernumber.onkeydown = function(event){
+            // console.log(event.key, score, usernumber.value, needsreset);
+            // if needs reset then hit enter
+            if (event.key == "Enter") {
+                if (usernumber.value == "") {result.innerHTML = "You need to type something...";}
+                    // if not guess and press button then insult
+                else {
+                    // if hit enter and won then new game
+                    if (needsreset == true) {reset()}
+                    // if game not done enter try guess thingy
+                    else {userguess(usernumber.value);}
+                }
+                
+            }
+            
+        }
+
+
+
+    // helper function for reset (everytime you reset youll need to get a new integer)
+        function getRndInteger(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) ) + min;
+        }
+
+    // reset with enter key function (false)
+        let needsreset = false; //variable
+
+        function reset() { //function, if function doesnt need input parentheses stay empty
+            console.log(usernumber.value);
+            // score, text, and button back to 0
+            score = 0;
+            result.innerHTML = "New Game! Goodluck >:)";
+            number = getRndInteger (1, 100);
+        } 
+
+    // integer grab and info output
+        let number=getRndInteger(1, 100);//declaration, variable
+        console.log(number);
+        let score=0;
+
+        function userguess(wholenumber) { //function
+            if (isNaN(wholenumber)) {result.innerHTML = "you need to enter a number";}
+
+            score = score +1;
+            //if userguess is lower than random then output "lower"
+            if (wholenumber > number) {result.innerHTML = "Lower"; 
+                result.style.color = "red";}
+            //if userguess is higher than random then output "higher"
+            if (wholenumber < number) {result.innerHTML = "Higher";
+            result.style.color = "red";}
+            //if userguess is same as random, then output "correct"
+            if (wholenumber == number) {
+                console.log ("Correct"); 
+                result.innerHTML = "Correct";
+    // reset with enter key function (true)
+                needsreset = true;
+                result.style.color = "green";
+
+            // if score is 1 then output "wtf"
+            if (score <= 1) {result.innerHTML = "WTF";}
+            // if score is lower than 5 then output "smartass"
+             else if (score <= 10) {result.innerHTML = "Smartass :)";}
+            // if score is higher than 5 then output "dumbass"
+            else if (score > 10) {result.innerHTML = "Dumbass :)";}
+            // if score is higher than 10 then output "thats sad"
+            else if (score > 15) {result.innerHTML = "That was sad";}
+            // if score is higher than 15 then output "ur a lost cause"
+            else if (score > 20) {result.innerHTML = "Your'e a lost cause"}
+            }
+
+            console.log("score is " + score);
+    
+        }
+    </script>
+</body>
